@@ -1,0 +1,22 @@
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+
+// Variables
+@import "variables";
+
+// Bootstrap
+@import "~bootstrap/scss/bootstrap";
+
+/* Code Style */
+
+/*Code text*/
+.code-text-n {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.code-text {
+    font-size: 2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
