@@ -19,7 +19,7 @@ class CodeController extends Controller
     {
 
         return view('code', [
-            'codes' => Code::orderBy('name', 'asc')->whereEnable(true)->get()
+            'codes' => Code::orderBy('name', 'asc')->whereEnable(true)->paginate(20)
         ]);
     }
 
@@ -114,5 +114,13 @@ class CodeController extends Controller
     public function destroy(Code $code)
     {
         //
+    }
+
+    public function getDataDumpAsJson()
+    {
+        $c = Code::select('name', 'code', 'code_n', 'comment', 'search_mask')
+            ->orderBy('name', 'asc')
+            ->get();
+        return CodeResource::collection($c);
     }
 }

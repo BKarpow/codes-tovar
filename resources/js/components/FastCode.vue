@@ -11,19 +11,28 @@
         </div>
         <!-- /.input-search-block -->
         <div class="mt-1 list_search" v-if="codes.length > 0">
-            <ul class="list-group">
+            <h4 class="text-center">
+                Пошук по: "{{ searchText }}"
+                <span class="btn btn-danger btn-sm" @click="clear"
+                    >Сховати</span
+                >
+            </h4>
+            <ul class="list-group col-md-5">
                 <li
-                    class="list-group-item list-group-item-success d-flex"
+                    class="list-group-item list-group-item-dark bg-dark"
                     v-for="code in codes"
                     :key="code.id"
                 >
-                    <span class="item text">
+                    <span class="d-block my-1 text">
                         <a :href="`/code/edit/${code.id}`"> {{ code.name }} </a>
                     </span>
-                    <span class="item code">
-                        {{ code.code }}
+                    <span class="d-block">
+                        <span class="item code">
+                            {{ code.code }}
+                        </span>
+                        <span class="item code"> (N {{ code.code_n }}) </span>
                     </span>
-                    <span class="item code"> (N {{ code.code_n }}) </span>
+                    <!-- /.item -->
                 </li>
             </ul>
             <!-- /.list-group -->
@@ -42,6 +51,10 @@ export default {
         };
     },
     methods: {
+        clear() {
+            this.codes = [];
+            this.searchText = "";
+        },
         doInput() {
             this.fetchResults();
         },
@@ -60,25 +73,32 @@ export default {
 </script>
 
 <style scoped>
+li {
+    border-top: 1px solid #fff;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    border-radius: 9px !important;
+}
 .item {
     display: inline-block;
     padding: 0.7rem;
+    color: #fff;
 }
 .text {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
     text-transform: uppercase;
 }
 a {
     text-decoration: none;
-    color: inherit;
+    color: white;
 }
 a:hover {
     text-decoration: none;
     color: inherit;
 }
 .code {
-    font-size: 1.7rem;
+    font-size: 1.3rem;
     font-weight: bold;
     text-transform: uppercase;
 }

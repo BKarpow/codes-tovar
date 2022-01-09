@@ -19,5 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('/code')->group(function () {
+
     Route::get('/search', [App\Http\Controllers\CodeController::class, 'search']);
+    Route::get('/dump', [App\Http\Controllers\CodeController::class, 'getDataDumpAsJson']);
 });
