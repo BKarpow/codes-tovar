@@ -26,7 +26,6 @@
                         <thead>
                             <tr>
                                 <th>Товар</th>
-                                <th>Код</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -34,24 +33,27 @@
                                 <tr>
                                     <td>
                                         <a href="{{ route('code.edit', ['code'=>$code]) }} " 
-                                            class="btn btn-success btn-sm">
+                                            class="code-btn">
                                         <span class="code-text-n">
                                             {{ $code->name }}
                                         </span>
                                         </a>
                                         <!-- /.code-text-n -->
-                                        
-                                          </td>
-                                    <td> 
-                                        <span class="code-text d-block">
+                                            <div class="mt-1">
+                                                <span class="code-text d-block">
                                             {{ $code->code }}
                                         </span>
                                         <!-- /.code-text --> 
+                                        @if ($code->code_n != 0)
                                         <span class="code-text d-block">
-                                            {{ $code->code_n }}
+                                           Н - {{ $code->code_n }}
                                         </span>
                                         <!-- /.code-text -->
-                                    </td>
+                                        @endif
+                                            </div>
+                                            <!-- /.mt-1 -->
+                                          </td>
+                                    
                                     
                                 </tr>
                             @endforeach

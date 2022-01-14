@@ -59,11 +59,16 @@ export default {
             this.fetchResults();
         },
         fetchResults() {
-            const u = `/api/code/search/?s=${this.searchText}`;
-            axios.get(u).then((response) => {
-                console.log(response);
-                this.codes = response.data.data;
-            });
+            const u = `/code/search/?s=${this.searchText}`;
+            console.log("Test: ", u);
+            fetch(u)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log(data);
+                    this.codes = data.data;
+                });
         },
     },
     mounted() {

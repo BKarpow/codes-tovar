@@ -26,6 +26,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group([
     'prefix' => '/code',
 ], function(){
+    Route::get('/search', [App\Http\Controllers\CodeController::class, 'search']);
     Route::get('/', [App\Http\Controllers\CodeController::class, 'index'])
         ->name('code.index');
     Route::get('/create', [App\Http\Controllers\CodeController::class, 'create'])
