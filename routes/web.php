@@ -37,4 +37,6 @@ Route::group([
         ->middleware('auth')->name('code.store');
     Route::post('/edit/{code}', [App\Http\Controllers\CodeController::class, 'update'])
         ->middleware('auth')->name('code.update');
+    Route::delete('/destroy/{code}', [App\Http\Controllers\CodeController::class, 'destroy'])
+        ->middleware('auth')->name('code.destroy');
 });

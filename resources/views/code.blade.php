@@ -17,6 +17,12 @@
                         <!-- /.btn btn-primary -->
                     </div>
                     <!-- /.my-1 -->
+                    <div>
+                        <span class="text">
+                            Всього кодів: {{ $allCount }}.
+                        </span>
+                        <!-- /.text -->
+                    </div>
                     @if ($codes->count() > 0)
                     <div class="my-1">
                         <fast></fast>
@@ -39,6 +45,9 @@
                                         </span>
                                         </a>
                                         <!-- /.code-text-n -->
+                                            @if (auth()->check())
+                                            <delete :code-id="{{ $code->id }}" code-name="{{ $code->name }}" ></delete>
+                                            @endif
                                             <div class="mt-1">
                                                 <span class="code-text d-block">
                                             {{ $code->code }}

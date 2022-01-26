@@ -27,6 +27,14 @@
                         <a :href="`/code/edit/${code.id}`"> {{ code.name }} </a>
                     </span>
                     <span class="d-block">
+                        <DeleteBtn
+                            :codeId="code.id"
+                            :codeName="code.name"
+                            @success="fetchResults"
+                        />
+                    </span>
+                    <!-- /.d-block -->
+                    <span class="d-block">
                         <span class="item code">
                             {{ code.code }}
                         </span>
@@ -43,7 +51,11 @@
 </template>
 
 <script>
+import DeleteBtn from "./DeleteBtn.vue";
 export default {
+    components: {
+        DeleteBtn,
+    },
     data() {
         return {
             searchText: "",
@@ -59,15 +71,18 @@ export default {
             this.fetchResults();
         },
         fetchResults() {
-            const u = `/code/search/?s=${this.searchText}`;
-            console.log("Test: ", u);
-            fetch(u)
-                .then((response) => {
-                    return response.json();
+            const u = `api/code/search/?s=${this.searchText}`;
+            axios
+                .get(u)
+                .then((r) => {
+                    if (r.status === 200) {
+                        this.codes = r.data.data;
+                    } else {
+                        console.error("Помилка статуса запиту", r);
+                    }
                 })
-                .then((data) => {
-                    console.log(data);
-                    this.codes = data.data;
+                .catch((err) => {
+                    console.error("Помилка запиту", err);
                 });
         },
     },

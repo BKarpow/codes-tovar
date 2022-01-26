@@ -19,7 +19,8 @@ class CodeController extends Controller
     {
 
         return view('code', [
-            'codes' => Code::orderBy('name', 'asc')->whereEnable(true)->paginate(20)
+            'allCount' => Code::all()->count(),
+            'codes' => Code::orderBy('name', 'asc')->whereEnable(true)->paginate(75)
         ]);
     }
 
@@ -113,7 +114,9 @@ class CodeController extends Controller
      */
     public function destroy(Code $code)
     {
-        //
+        $nm = $code->name;
+        $code->delete();
+        return response()->json(['Deleted' => $nm]);
     }
 
     public function getDataDumpAsJson()

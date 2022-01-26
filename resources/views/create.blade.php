@@ -37,7 +37,7 @@
                         <div class="form-group">
                             <label for="code">Код</label>
                             <input 
-                                type="text"
+                                type="tel"
                                 require
                                 name="code" 
                                 id="code" 
@@ -59,7 +59,7 @@
                         <div class="form-group">
                             <label for="code_n">Код Н</label>
                             <input 
-                                type="text"
+                                type="tel"
                                 name="code_n" 
                                 id="code_n" 
                                 require
@@ -82,7 +82,7 @@
                         <div class="form-group">
                             <label for="price">Цена</label>
                             <input 
-                                type="text"
+                                type="tel"
                                 name="price" 
                                 id="price" 
                                 require
