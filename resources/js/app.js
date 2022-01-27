@@ -21,6 +21,7 @@ window.Vue = require("vue").default;
 
 Vue.component("fast", require("./components/FastCode.vue").default);
 Vue.component("delete", require("./components/DeleteBtn.vue").default);
+Vue.component("show", require("./components/ShowAll.vue").default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

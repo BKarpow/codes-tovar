@@ -28,53 +28,10 @@
                         <fast></fast>
                     </div>
                     <!-- /.my-1 -->
-                    <table class="mt-4 col-md-4 table table-dark table-responsive">
-                        <thead>
-                            <tr>
-                                <th>Товар</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($codes as $code)
-                                <tr>
-                                    <td>
-                                        <a href="{{ route('code.edit', ['code'=>$code]) }} " 
-                                            class="code-btn">
-                                        <span class="code-text-n">
-                                            {{ $code->name }}
-                                        </span>
-                                        </a>
-                                        <!-- /.code-text-n -->
-                                            @if (auth()->check())
-                                            <delete :code-id="{{ $code->id }}" code-name="{{ $code->name }}" ></delete>
-                                            @endif
-                                            <div class="mt-1">
-                                                <span class="code-text d-block">
-                                            {{ $code->code }}
-                                        </span>
-                                        <!-- /.code-text --> 
-                                        @if ($code->code_n != 0)
-                                        <span class="code-text d-block">
-                                           Н - {{ $code->code_n }}
-                                        </span>
-                                        <!-- /.code-text -->
-                                        @endif
-                                            </div>
-                                            <!-- /.mt-1 -->
-                                          </td>
-                                    
-                                    
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    <div class="mt-1 row justify-content-center">
-                        <div class="col-6 text-center py-2">
-                            {{ $codes->links() }}
-                        </div>
-                        <!-- /.col-md-12 text-center py-2 -->
-                    </div>
-                    <!-- /.mt-1 row -->
+
+                    
+
+                    
                     @else 
                         <div class="alert alert-secondary">
                             Поки немає кодів...

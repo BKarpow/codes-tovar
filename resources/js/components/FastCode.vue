@@ -4,46 +4,19 @@
             <input
                 class="input"
                 type="text"
-                @input="doInput"
                 v-model="searchText"
                 placeholder="Какой товар?"
             />
         </div>
         <!-- /.input-search-block -->
-        <div class="mt-1 list_search" v-if="codes.length > 0">
-            <h4 class="text-center">
+        <div class="mt-1 list_search">
+            <h4 class="text-center" v-if="codes.length > 0">
                 Пошук по: "{{ searchText }}"
                 <span class="btn btn-danger btn-sm" @click="clear"
                     >Сховати</span
                 >
             </h4>
-            <ul class="list-group col-md-5">
-                <li
-                    class="list-group-item list-group-item-dark bg-dark"
-                    v-for="code in codes"
-                    :key="code.id"
-                >
-                    <span class="d-block my-1 text">
-                        <a :href="`/code/edit/${code.id}`"> {{ code.name }} </a>
-                    </span>
-                    <span class="d-block">
-                        <DeleteBtn
-                            :codeId="code.id"
-                            :codeName="code.name"
-                            @success="fetchResults"
-                        />
-                    </span>
-                    <!-- /.d-block -->
-                    <span class="d-block">
-                        <span class="item code">
-                            {{ code.code }}
-                        </span>
-                        <span class="item code"> (N {{ code.code_n }}) </span>
-                    </span>
-                    <!-- /.item -->
-                </li>
-            </ul>
-            <!-- /.list-group -->
+            <show-all :codes="codeList" :load="load" :error="error" />
         </div>
         <!-- /.mt-1 list_search -->
     </div>
@@ -52,32 +25,77 @@
 
 <script>
 import DeleteBtn from "./DeleteBtn.vue";
+import ShowAll from "./ShowAll.vue";
 export default {
     components: {
         DeleteBtn,
+        ShowAll,
     },
     data() {
         return {
             searchText: "",
             codes: [],
+            codesAll: [],
+            load: false,
+            error: false,
         };
+    },
+    watch: {
+        searchText() {
+            this.doInput();
+        },
+    },
+    computed: {
+        codeList() {
+            if (this.searchText.length === 0) {
+                return this.codesAll;
+            } else {
+                return this.codes;
+            }
+        },
     },
     methods: {
         clear() {
             this.codes = [];
             this.searchText = "";
+            if (this.codesAll.length > 0) {
+                this.load = true;
+                this.error = false;
+            }
+        },
+        fetchAllCodes() {
+            this.load = false;
+            this.error = !true;
+            axios.get("/api/code/dump").then((r) => {
+                if (r.status === 200) {
+                    this.codesAll = r.data.data;
+                    this.load = true;
+                    this.error = !true;
+                } else {
+                    this.error = true;
+                    console.error(r);
+                }
+            });
         },
         doInput() {
-            this.fetchResults();
+            if (this.searchText !== "") {
+                this.fetchResults();
+            } else {
+                this.clear();
+            }
         },
         fetchResults() {
             const u = `api/code/search/?s=${this.searchText}`;
+            this.load = false;
             axios
                 .get(u)
                 .then((r) => {
                     if (r.status === 200) {
                         this.codes = r.data.data;
+                        this.load = true;
+                        this.error = false;
                     } else {
+                        this.error = !false;
                         console.error("Помилка статуса запиту", r);
                     }
                 })
@@ -87,7 +105,7 @@ export default {
         },
     },
     mounted() {
-        console.log("Component mounted.");
+        this.fetchAllCodes();
     },
 };
 </script>

@@ -121,7 +121,7 @@ class CodeController extends Controller
 
     public function getDataDumpAsJson()
     {
-        $c = Code::select('name', 'code', 'code_n', 'comment', 'search_mask')
+        $c = Code::select('id', 'name', 'code', 'code_n', 'comment', 'search_mask')
             ->orderBy('name', 'asc')
             ->get();
         return CodeResource::collection($c);
