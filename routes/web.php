@@ -21,6 +21,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Auth::routes();
 
+Route::get('/user/password/update', [App\Http\Controllers\Auth\UpdatePasswordController::class, 'pageUpdate'])
+    ->name('user.updatePassword');
+    Route::post('/user/password/update', [App\Http\Controllers\Auth\UpdatePasswordController::class, 'update'])
+    ->name('user.updatePassword.action');
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group([
@@ -36,7 +41,7 @@ Route::group([
     Route::post('/create', [App\Http\Controllers\CodeController::class, 'store'])
         ->middleware('auth')->name('code.store');
     Route::post('/edit/{code}', [App\Http\Controllers\CodeController::class, 'update'])
-        ->middleware('auth')->name('code.update');
+        ->middleware('admin')->name('code.update');
     Route::delete('/destroy/{code}', [App\Http\Controllers\CodeController::class, 'destroy'])
-        ->middleware('auth')->name('code.destroy');
+        ->middleware('admin')->name('code.destroy');
 });

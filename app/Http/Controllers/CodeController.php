@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCodeRequest;
 use App\Http\Resources\CodeResource;
+use App\Http\Resources\GroupsResource;
 use App\Models\Code;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class CodeController extends Controller
@@ -125,5 +127,29 @@ class CodeController extends Controller
             ->orderBy('name', 'asc')
             ->get();
         return CodeResource::collection($c);
+    }
+
+    /**
+     * 
+     */
+    public function getNameGroupsAndCount()
+    {
+        return GroupsResource::collection( Code::select('comment', DB::raw('COUNT(*) as count'))
+                ->groupBy('comment')
+                ->orderBy('count', 'DESC')
+                ->get()) ;
+    }
+
+
+    public function getCodesFromGroup(Request $request)
+    {
+        $request->validate([
+            'group' => 'required|string|max:30|min:2',
+        ]);
+        return CodeResource::collection(
+            Code::whereComment($request->group)
+                ->orderBy('name', 'ASC')
+                ->get()
+        );
     }
 }

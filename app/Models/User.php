@@ -12,6 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const ADMIN_CODE = 1;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -41,4 +43,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function isAdmin():bool
+    {
+        return (int)$this->role === self::ADMIN_CODE;
+    }
 }

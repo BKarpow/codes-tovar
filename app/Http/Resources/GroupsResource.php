@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CodeResource extends JsonResource
+class GroupsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,13 +14,6 @@ class CodeResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'search_mask' => $this->search_mask,
-            'code' => $this->code,
-            'code_n' => $this->code_n,
-            'comment' => $this->comment,
-        ];
+        return parent::toArray($request);
     }
 }

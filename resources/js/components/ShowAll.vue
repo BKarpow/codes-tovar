@@ -16,7 +16,11 @@
                         code.code_n
                     }}</span>
                     <span class="i">
-                        <delete-btn :codeId="code.id" :codeName="code.name" />
+                        <delete-btn
+                            :codeId="code.id"
+                            :codeName="code.name"
+                            @success="deleteOk"
+                        />
                     </span>
                 </li>
             </ol>
@@ -45,6 +49,11 @@ export default {
         error: {
             type: Boolean,
             default: false,
+        },
+    },
+    methods: {
+        deleteOk({ codeId }) {
+            this.$emit("deleted", codeId);
         },
     },
 };

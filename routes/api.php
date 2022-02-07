@@ -22,4 +22,6 @@ Route::prefix('/code')->group(function () {
 
     Route::get('/search', [App\Http\Controllers\CodeController::class, 'search']);
     Route::get('/dump', [App\Http\Controllers\CodeController::class, 'getDataDumpAsJson']);
+    Route::get('/group', [App\Http\Controllers\CodeController::class, 'getNameGroupsAndCount']);
+    Route::post('/from', [App\Http\Controllers\CodeController::class, 'getCodesFromGroup']);
 });

@@ -59,7 +59,7 @@ export default {
                 .delete(urlDelete)
                 .then((r) => {
                     if (r.status === 200) {
-                        this.$emit("success", { delete: true });
+                        this.$emit("success", { codeId: this.codeId });
                     }
                 })
                 .catch((err) => {

@@ -9,6 +9,36 @@
             />
         </div>
         <!-- /.input-search-block -->
+        <div class="my-2 d-flex justify-content-center">
+            <button
+                type="button"
+                @click="groupSelector = !groupSelector"
+                class="btn d-block"
+                :class="{
+                    'btn-danger': groupSelector,
+                    'btn-success': !groupSelector,
+                }"
+            >
+                {{ btnTextGroupSelector }}
+            </button>
+        </div>
+        <div class="my-1" v-if="groupSelector">
+            <GroupSelect
+                :groups="groups"
+                @click:group="getCodesFromGroupName"
+            />
+            <div class="mt-2 mb-3" v-if="codesOfGroup.length > 0">
+                <h2 class="text-center">{{ groupName }}</h2>
+                <show-all
+                    :codes="codesOfGroup"
+                    :load="load"
+                    :error="error"
+                    @deleted="fetchAllCodes"
+                />
+            </div>
+            <!-- /.my-1 -->
+        </div>
+        <!-- /.my-1 -->
         <div class="mt-1 list_search">
             <h4 class="text-center" v-if="codes.length > 0">
                 Пошук по: "{{ searchText }}"
@@ -16,7 +46,12 @@
                     >Сховати</span
                 >
             </h4>
-            <show-all :codes="codeList" :load="load" :error="error" />
+            <show-all
+                :codes="codeList"
+                :load="load"
+                :error="error"
+                @deleted="fetchAllCodes"
+            />
         </div>
         <!-- /.mt-1 list_search -->
     </div>
@@ -26,10 +61,12 @@
 <script>
 import DeleteBtn from "./DeleteBtn.vue";
 import ShowAll from "./ShowAll.vue";
+import GroupSelect from "./GroupSelect.vue";
 export default {
     components: {
         DeleteBtn,
         ShowAll,
+        GroupSelect,
     },
     data() {
         return {
@@ -38,6 +75,10 @@ export default {
             codesAll: [],
             load: false,
             error: false,
+            groups: [],
+            codesOfGroup: [],
+            groupName: "",
+            groupSelector: false,
         };
     },
     watch: {
@@ -46,6 +87,11 @@ export default {
         },
     },
     computed: {
+        btnTextGroupSelector() {
+            return this.groupSelector
+                ? "Закрити вибір через групу"
+                : "Групи кодів";
+        },
         codeList() {
             if (this.searchText.length === 0) {
                 return this.codesAll;
@@ -103,9 +149,32 @@ export default {
                     console.error("Помилка запиту", err);
                 });
         },
+        fetchGroups() {
+            axios.get("/api/code/group").then((r) => {
+                if (r.status === 200) {
+                    this.groups = r.data.data;
+                } else {
+                    console.error("Error fetching groups list!");
+                }
+            });
+        },
+        getCodesFromGroupName(groupName) {
+            axios.post("/api/code/from", { group: groupName }).then((r) => {
+                if (r.status === 200) {
+                    this.codesOfGroup = r.data.data;
+                    this.groupName = groupName;
+                } else {
+                    console.error(
+                        "Error getting codes of group name: ",
+                        groupName
+                    );
+                }
+            });
+        },
     },
     mounted() {
         this.fetchAllCodes();
+        this.fetchGroups();
     },
 };
 </script>
