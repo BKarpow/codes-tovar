@@ -104,12 +104,7 @@
                         <!-- /.form-group -->
 
                         <div class="form-group">
-                            <label for="price">Описания</label>
-                            <textarea 
-                            placeholder="Описания товара"
-                            maxlength="249" 
-                            class="form-control" 
-                            name="comment">{{$code->comment}}</textarea>
+                            <groups group-value="{{$code->comment}}"></groups>
                             @error('comment') 
                                 <div class="alert alert-warning">
                                     <strong>

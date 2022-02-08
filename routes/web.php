@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController as UC;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,16 +18,10 @@ Route::get('/', [App\Http\Controllers\CodeController::class, 'index']);
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\CodeController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::get('/user/password/update', [App\Http\Controllers\Auth\UpdatePasswordController::class, 'pageUpdate'])
-    ->name('user.updatePassword');
-    Route::post('/user/password/update', [App\Http\Controllers\Auth\UpdatePasswordController::class, 'update'])
-    ->name('user.updatePassword.action');
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group([
     'prefix' => '/code',
@@ -44,4 +39,15 @@ Route::group([
         ->middleware('admin')->name('code.update');
     Route::delete('/destroy/{code}', [App\Http\Controllers\CodeController::class, 'destroy'])
         ->middleware('admin')->name('code.destroy');
+});
+
+Route::group([
+    'prefix' => '/user'
+], function() {
+    Route::get('/profile/name', [UC::class, 'updateNamePage'])->name('user.updateName');
+    Route::post('/profile/name', [UC::class, 'updateNameAction'])->name('user.updateName.action');
+    Route::get('/profile/password/update', [App\Http\Controllers\Auth\UpdatePasswordController::class, 'pageUpdate'])
+    ->name('user.updatePassword');
+    Route::post('/profile/password/update', [App\Http\Controllers\Auth\UpdatePasswordController::class, 'update'])
+        ->name('user.updatePassword.action');
 });
