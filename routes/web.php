@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController as UC;
+use GuzzleHttp\Middleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,10 +45,21 @@ Route::group([
 Route::group([
     'prefix' => '/user'
 ], function() {
-    Route::get('/profile/name', [UC::class, 'updateNamePage'])->name('user.updateName');
+    Route::get('/profile/name', [UC::class, 'updateNamePage'])
+        ->name('user.updateName');
+    Route::get('/profile/enableAdmin', [UC::class, 'enableAdmin'])
+        ->middleware('admin')->name('user.enableAdmin');
+    Route::get('/profile/enableAdmin/action/', [UC::class, 'enableAdminAction'])
+        ->middleware('admin')->name('user.enableAdminAction');
+    Route::get('/profile/disableAdmin/action/', [UC::class, 'disableAdminAction'])
+        ->middleware('admin')->name('user.disableAdminAction');
     Route::post('/profile/name', [UC::class, 'updateNameAction'])->name('user.updateName.action');
     Route::get('/profile/password/update', [App\Http\Controllers\Auth\UpdatePasswordController::class, 'pageUpdate'])
-    ->name('user.updatePassword');
+        ->name('user.updatePassword');
     Route::post('/profile/password/update', [App\Http\Controllers\Auth\UpdatePasswordController::class, 'update'])
         ->name('user.updatePassword.action');
+    Route::get('/profile/email/update', [UC::class, 'updateEmailPage'])
+        ->name('user.updateEmail');
+    Route::post('/profile/email/update', [UC::class, 'updateEmailAction'])
+        ->name('user.updateEmailAction');
 });

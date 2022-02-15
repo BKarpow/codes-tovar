@@ -44,8 +44,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function isAdmin():bool
+    public function isAdmin($roleCode = null):bool
     {
+        if ($roleCode !== null) {
+            return (int)$roleCode === self::ADMIN_CODE;
+        }
         return (int)$this->role === self::ADMIN_CODE;
     }
 }

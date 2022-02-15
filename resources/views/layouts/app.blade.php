@@ -72,6 +72,14 @@
                                         Изменить имя
                                     </a>
                                     <!-- /.dropdown-item -->
+                                    <a href="{{ route('user.updateEmail') }}" class="dropdown-item">
+                                        Изменить Email
+                                    </a>
+                                    @if (auth()->user()->isAdmin())
+                                    <a href="{{ route('user.enableAdmin') }}" class="dropdown-item">
+                                        Назначить админа
+                                    </a>
+                                    @endif
                                     <!-- /.dropdown-item -->
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
